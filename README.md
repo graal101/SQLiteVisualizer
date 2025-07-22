@@ -51,6 +51,8 @@ SQLite Visualizer — это простой и интуитивно понятн
 
    ```bash
    python main.py
+   или
+   python3 main.py
    ```
 
 ## Участие
