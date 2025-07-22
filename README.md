@@ -33,7 +33,21 @@ SQLite Visualizer — это простой и интуитивно понятн
   ```bash
    venv\Scripts\activate
 
-4. На macOS и Linux:
-  ```bash
+  На macOS и Linux:
+   ```bash
    source venv/bin/activate
+
+4. Установите необходимые пакеты:
+   ```bash
+   pip install -r requirements.txt
+
+Использование
+Чтобы запустить SQLite Visualizer, выполните следующую команду:
+
+   ```bash
+   python main.py
+
+Участие
+Вклад приветствуется! Если у вас есть предложения по улучшению или новым функциям, пожалуйста, откройте проблему или отправьте запрос на изменение.
+
 
