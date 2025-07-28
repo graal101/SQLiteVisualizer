@@ -23,8 +23,38 @@
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="mn_open"/>
+    <addaction name="mn_quit"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Правка</string>
+    </property>
+    <addaction name="mn_font"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="mn_open">
+   <property name="text">
+    <string>Открыть БД</string>
+   </property>
+  </action>
+  <action name="mn_font">
+   <property name="text">
+    <string>Выбрать шрифт</string>
+   </property>
+  </action>
+  <action name="mn_quit">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

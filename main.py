@@ -1,21 +1,31 @@
 #!/usr/bin/env python3
+"""Приложение для просмотра sqlite3 таблиц."""
 import sys
+
+from Dialogs.dialogs import message
+
 from PyQt6 import QtWidgets, uic
 
+
 class MyApp(QtWidgets.QMainWindow):
+    """Класс приложения."""
+
     def __init__(self):
         super(MyApp, self).__init__()
         uic.loadUi('ui/main_window.ui', self)
-    '''
-        Just fill this with code )))
-        
-        # Здесь сигналы и слоты
-        self.pushButton.clicked.connect(self.on_button_click)  # подключения кнопки
 
-    def on_button_click(self):
+        # Здесь сигналы и слоты
+        self.mn_open.triggered.connect(self.mn_open_file)  # Открыть файл БД
+        self.mn_quit.triggered.connect(self.mn_exit)  # Выход
+
+    def mn_open_file(self):
+        message(self, 'Открыто', 'Имя файла')
+
+    def mn_exit(self):
         # Действие при нажатии кнопки
-        self.label.setText("Кнопка нажата!")  # Изменяем текст метки
-    '''
+        sys.exit()
+
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = MyApp()
