@@ -2,7 +2,7 @@
 """Приложение для просмотра sqlite3 таблиц."""
 import sys
 
-from Dialogs.dialogs import message
+from Dialogs.dialogs import message, FileDialog
 
 from PyQt6 import QtWidgets, uic
 
@@ -19,7 +19,9 @@ class MyApp(QtWidgets.QMainWindow):
         self.mn_quit.triggered.connect(self.mn_exit)  # Выход
 
     def mn_open_file(self):
-        message(self, 'Открыто', 'Имя файла')
+        #message(self, 'Открыто', 'Имя файла')
+        d = FileDialog()
+        print(d.open_file_dialog())
 
     def mn_exit(self):
         # Действие при нажатии кнопки
