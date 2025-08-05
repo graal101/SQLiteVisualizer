@@ -4,6 +4,7 @@ class SQLiteCRUD:
     def __init__(self, db_name):
         self.connection = sqlite3.connect(db_name)
         self.cursor = self.connection.cursor()
+        self.__table_name = self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()[0][0] 
 
     def create_table(self, table_name, columns):
         columns_with_types = ', '.join([f"{col} {typ}" for col, typ in columns.items()])
@@ -15,8 +16,8 @@ class SQLiteCRUD:
         self.cursor.execute(f"INSERT INTO {table_name} VALUES ({placeholders})", tuple(data))
         self.connection.commit()
 
-    def read(self, table_name, conditions=None):
-        query = f"SELECT * FROM {table_name}"
+    def read(self, conditions=None):
+        query = f"SELECT * FROM {self.__table_name}"
         if conditions:
             query += " WHERE " + ' AND '.join([f"{key} = ?" for key in conditions.keys()])
             self.cursor.execute(query, tuple(conditions.values()))

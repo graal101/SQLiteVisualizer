@@ -6,6 +6,7 @@ from Dialogs.dialogs import message, FileDialog
 
 from PyQt6 import QtWidgets, uic
 
+from tools.table_kit import SQLiteCRUD as sql3
 
 class MyApp(QtWidgets.QMainWindow):
     """Класс приложения."""
@@ -21,7 +22,8 @@ class MyApp(QtWidgets.QMainWindow):
         
     def mn_open_file(self):
         d = FileDialog()
-        print(d.open_file_dialog())
+        sdb = sql3(d.open_file_dialog())
+        # print(sdb.read())
         
     def mn_font_choose(self):
         d = FileDialog()
