@@ -17,6 +17,7 @@ class SQLiteCRUD:
         self.connection.commit()
 
     def read(self, conditions=None):
+        """Read db, 'table name' is automatic."""
         query = f"SELECT * FROM {self.__table_name}"
         if conditions:
             query += " WHERE " + ' AND '.join([f"{key} = ?" for key in conditions.keys()])
@@ -37,5 +38,9 @@ class SQLiteCRUD:
         self.cursor.execute(f"DELETE FROM {table_name} WHERE {condition_clause}", tuple(conditions.values()))
         self.connection.commit()
 
+
     def close(self):
         self.connection.close()
+        
+    def __del__(self):
+        self.close()
