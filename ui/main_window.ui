@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>832</width>
+    <height>780</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>SQLiteVisualizer</string>
   </property>
@@ -175,7 +183,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>858</width>
+     <width>832</width>
      <height>23</height>
     </rect>
    </property>
