@@ -4,7 +4,10 @@ class SQLiteCRUD:
     def __init__(self, db_name):
         self.connection = sqlite3.connect(db_name)
         self.cursor = self.connection.cursor()
-        self.__table_name = self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()[0][0] 
+        self.__table_name = self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()[0][0]
+        
+    def get_table_name(self) -> str:
+        return self.__table_name
 
     def create_table(self, table_name, columns):
         columns_with_types = ', '.join([f"{col} {typ}" for col, typ in columns.items()])
@@ -41,6 +44,7 @@ class SQLiteCRUD:
 
     def close(self):
         self.connection.close()
-        
+
+
     def __del__(self):
         self.close()

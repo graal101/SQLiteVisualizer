@@ -4,9 +4,10 @@ import sys
 
 from Dialogs.dialogs import message, FileDialog
 
+from PyQt6 import QtSql
 from PyQt6 import QtWidgets, uic
+from PyQt6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
 
-from tools.table_kit import SQLiteCRUD as sql3
 
 class MyApp(QtWidgets.QMainWindow):
     """Класс приложения."""
@@ -19,15 +20,33 @@ class MyApp(QtWidgets.QMainWindow):
         self.mn_open.triggered.connect(self.mn_open_file)  # Открыть файл БД
         self.mn_quit.triggered.connect(self.mn_exit)  # Выход
         self.mn_font.triggered.connect(self.mn_font_choose)  # Выбор шрифта, размера шрифта
-        
-    def mn_open_file(self):
-        d = FileDialog()
-        sdb = sql3(d.open_file_dialog())
-        # print(sdb.read())
-        
+
+    def mn_open_file(self):  # FIX table_kit with PyQt6.QtSql!!!
+        """Открытие базы данных с заполнением таблицы."""
+        flopen = FileDialog()
+        result = ''
+        file_name = flopen.open_file_dialog()
+        db_connect = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db_connect.setDatabaseName(file_name)
+        db_connect.open()
+        query = QSqlQuery()
+        if query.exec("SELECT name FROM sqlite_master WHERE type='table';"):
+            if query.next():
+                result = query.value(0)
+        else:
+            return
+
+        query.exec(f'SELECT * FROM {result}')
+        query.last()
+        model = QtSql.QSqlQueryModel()
+        model.setQuery(query)
+        self.tableView.setModel(model)
+        db_connect.close()
+        self.statusbar.showMessage('Загружен: ' + file_name)
+
     def mn_font_choose(self):
-        d = FileDialog()
-        fsize = d.font_dialog()
+        font_open = FileDialog()
+        fsize = font_open.font_dialog()
         if fsize:
             self.menubar.setFont(fsize)  # for test
 
