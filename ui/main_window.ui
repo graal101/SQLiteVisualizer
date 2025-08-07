@@ -163,7 +163,7 @@
             <widget class="QLineEdit" name="lineEdit"/>
            </item>
            <item>
-            <widget class="QPushButton" name="button_search">
+            <widget class="QPushButton" name="btn_search">
              <property name="text">
               <string>Search SQL</string>
              </property>
