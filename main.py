@@ -9,6 +9,8 @@ from PyQt6 import QtWidgets, uic
 from PyQt6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
 
 
+
+
 class MyApp(QtWidgets.QMainWindow):
     """Класс приложения."""
 
@@ -20,6 +22,7 @@ class MyApp(QtWidgets.QMainWindow):
         self.mn_open.triggered.connect(self.mn_open_file)  # Открыть файл БД
         self.mn_quit.triggered.connect(self.mn_exit)  # Выход
         self.mn_font.triggered.connect(self.mn_font_choose)  # Выбор шрифта, размера шрифта
+        self.btn_search.clicked.connect(self.fetch_data)  # Запрос к БД из строки
 
     def mn_open_file(self):  # FIX table_kit with PyQt6.QtSql!!!
         """Открытие базы данных с заполнением таблицы."""
@@ -43,12 +46,18 @@ class MyApp(QtWidgets.QMainWindow):
         self.tableView.setModel(model)
         db_connect.close()
         self.statusbar.showMessage('Загружен: ' + file_name)
+        
+    def fetch_data(self):
+        """Запрос в БД из lineEdit."""
+        str_query = self.lineEdit.text()
+        
+        
 
     def mn_font_choose(self):
         font_open = FileDialog()
         fsize = font_open.font_dialog()
         if fsize:
-            self.menubar.setFont(fsize)  # for test
+            self.tableView.setFont(fsize)
 
     def mn_exit(self):
         # Действие при нажатии кнопки
