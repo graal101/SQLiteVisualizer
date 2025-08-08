@@ -9,7 +9,14 @@ from PyQt6 import QtWidgets, uic
 from PyQt6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
 
 
-
+class Confdb():
+    """Параметры БД
+       :table_db_name: Имя таблицы.
+       :db_name: Путь до БД.
+    """
+    table_db_name = ''
+    db_name = ''
+    
 
 class MyApp(QtWidgets.QMainWindow):
     """Класс приложения."""
@@ -29,28 +36,50 @@ class MyApp(QtWidgets.QMainWindow):
         flopen = FileDialog()
         result = ''
         file_name = flopen.open_file_dialog()
+        Confdb.db_name = file_name
         db_connect = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         db_connect.setDatabaseName(file_name)
         db_connect.open()
         query = QSqlQuery()
         if query.exec("SELECT name FROM sqlite_master WHERE type='table';"):
             if query.next():
-                result = query.value(0)
+                Confdb.table_db_name = query.value(0)
         else:
             return
 
-        query.exec(f'SELECT * FROM {result}')
+        query.exec(f'SELECT * FROM {Confdb.table_db_name}')
         query.last()
         model = QtSql.QSqlQueryModel()
         model.setQuery(query)
         self.tableView.setModel(model)
         db_connect.close()
+        
+        self.lineEdit.setText(f'SELECT * FROM {Confdb.table_db_name}') 
         self.statusbar.showMessage('Загружен: ' + file_name)
         
     def fetch_data(self):
         """Запрос в БД из lineEdit."""
+        print(Confdb.table_db_name)
+        if not Confdb.db_name:
+            message('', 'Ошибка', 'Не загружена БД!', ico=2)
+            return
         str_query = self.lineEdit.text()
-        
+        if str_query == '':
+            message('', 'Ошибка', 'Пустая строка запроса к БД!', ico=2)
+            return
+        try:
+            db_connect = QtSql.QSqlDatabase.addDatabase("QSQLITE")
+            db_connect.setDatabaseName(Confdb.db_name)
+            db_connect.open()
+            query = QSqlQuery()
+            query.exec(str_query)
+            query.last()     
+            model = QtSql.QSqlQueryModel()
+            model.setQuery(query)    
+            self.tableView.setModel(model)
+            db_connect.close()     
+        except:
+            message('', 'Ошибка', f'Неправильный запрос - {str_query}', ico=2)
         
 
     def mn_font_choose(self):
