@@ -4,6 +4,7 @@ import sys
 
 from Dialogs.dialogs import message, FileDialog
 
+from tools.PQtModel import PQtSQliteCURD as Pqt
 from PyQt6 import QtSql
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
@@ -60,6 +61,10 @@ class MyApp(QtWidgets.QMainWindow):
     def fetch_data(self):
         """Запрос в БД из lineEdit."""
         print(Confdb.table_db_name)
+        # Test Pqt
+        q = Pqt(Confdb.table_db_name)
+        q.db_update()
+        
         if not Confdb.db_name:
             message('', 'Ошибка', 'Не загружена БД!', ico=2)
             return
