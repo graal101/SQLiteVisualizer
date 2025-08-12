@@ -60,11 +60,6 @@ class MyApp(QtWidgets.QMainWindow):
         
     def fetch_data(self):
         """Запрос в БД из lineEdit."""
-        print(Confdb.table_db_name)
-        # Test Pqt
-        q = Pqt(Confdb.table_db_name)
-        q.db_update()
-        
         if not Confdb.db_name:
             message('', 'Ошибка', 'Не загружена БД!', ico=2)
             return
@@ -72,20 +67,9 @@ class MyApp(QtWidgets.QMainWindow):
         if str_query == '':
             message('', 'Ошибка', 'Пустая строка запроса к БД!', ico=2)
             return
-        try:
-            db_connect = QtSql.QSqlDatabase.addDatabase("QSQLITE")
-            db_connect.setDatabaseName(Confdb.db_name)
-            db_connect.open()
-            query = QSqlQuery()
-            query.exec(str_query)
-            query.last()     
-            model = QtSql.QSqlQueryModel()
-            model.setQuery(query)    
-            self.tableView.setModel(model)
-            db_connect.close()     
-        except:
-            message('', 'Ошибка', f'Неправильный запрос - {str_query}', ico=2)
-        
+        qq = Pqt(Confdb.db_name)
+        tbname = qq.table_name
+        self.tableView.setModel(qq.db_read(str_query))
 
     def mn_font_choose(self):
         font_open = FileDialog()

@@ -5,9 +5,23 @@ from PyQt6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel, QSqlTableModel
 class PQtSQliteCURD:
     def __init__(self, db_name):
         self.db_name = db_name
+        self.__table_name = self.__bd_table_name()
 
     def db_read(self, db_query):
-        pass
+        '''Чтение из базы данных.'''
+        try:
+            db_connect = QtSql.QSqlDatabase.addDatabase("QSQLITE")
+            db_connect.setDatabaseName(self.db_name)
+            db_connect.open()
+            query = QSqlQuery()
+            query.exec(db_query)
+            query.last()     
+            model = QtSql.QSqlQueryModel()
+            model.setQuery(query)    
+            return model
+            db_connect.close()     
+        except:
+            print(f'\nОшибка при чтении базы данных[{self.db_name}, {db_query}]\n')
         
     def db_update(self):
         print('def db_update(self)')
@@ -22,7 +36,25 @@ class PQtSQliteCURD:
     def close(self):
         self.connection.close()
     """
+    def __bd_table_name(self):
+        '''Распознование имени таблицы.'''
+        db_connect = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db_connect.setDatabaseName(self.db_name)
+        db_connect.open()
+        query = QSqlQuery()
+        if query.exec("SELECT name FROM sqlite_master WHERE type='table';"):
+            if query.next():
+                val = query.value(0)
+                db_connect.close()
+                return val
+        else:
+            db_connect.close()
+            return None
+        
+    @property
+    def table_name(self):
+        return self.__table_name
         
     def __del__(self):
-        pass
+        print('class closed..')
         # self.close()
