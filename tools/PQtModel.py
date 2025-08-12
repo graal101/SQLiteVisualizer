@@ -9,6 +9,7 @@ class PQtSQliteCURD:
 
     def db_read(self, db_query):
         '''Чтение из базы данных.'''
+        res = None
         try:
             db_connect = QtSql.QSqlDatabase.addDatabase("QSQLITE")
             db_connect.setDatabaseName(self.db_name)
@@ -17,11 +18,12 @@ class PQtSQliteCURD:
             query.exec(db_query)
             query.last()     
             model = QtSql.QSqlQueryModel()
-            model.setQuery(query)    
-            return model
-            db_connect.close()     
+            model.setQuery(query)
+            res = model  
         except:
             print(f'\nОшибка при чтении базы данных[{self.db_name}, {db_query}]\n')
+        db_connect.close()
+        return res
         
     def db_update(self):
         print('def db_update(self)')
@@ -36,6 +38,7 @@ class PQtSQliteCURD:
     def close(self):
         self.connection.close()
     """
+    
     def __bd_table_name(self):
         '''Распознование имени таблицы.'''
         db_connect = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -47,9 +50,8 @@ class PQtSQliteCURD:
                 val = query.value(0)
                 db_connect.close()
                 return val
-        else:
-            db_connect.close()
-            return None
+        db_connect.close()
+        return None
         
     @property
     def table_name(self):

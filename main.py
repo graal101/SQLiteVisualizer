@@ -54,7 +54,6 @@ class MyApp(QtWidgets.QMainWindow):
         model.setQuery(query)
         self.tableView.setModel(model)
         db_connect.close()
-        
         self.lineEdit.setText(f'SELECT * FROM {Confdb.table_db_name}') 
         self.statusbar.showMessage('Загружен: ' + file_name)
         
@@ -68,7 +67,6 @@ class MyApp(QtWidgets.QMainWindow):
             message('', 'Ошибка', 'Пустая строка запроса к БД!', ico=2)
             return
         qq = Pqt(Confdb.db_name)
-        tbname = qq.table_name
         self.tableView.setModel(qq.db_read(str_query))
 
     def mn_font_choose(self):
