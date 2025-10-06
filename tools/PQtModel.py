@@ -6,6 +6,7 @@ class PQtSQliteCURD:
     def __init__(self, db_name):
         self.db_name = db_name
         self.__table_name = self.__bd_table_name()
+        self.__records_list = []
 
     def db_read(self, db_query):
         '''Чтение из базы данных.'''
@@ -22,6 +23,7 @@ class PQtSQliteCURD:
             res = model  
         except:
             print(f'\nОшибка при чтении базы данных[{self.db_name}, {db_query}]\n')
+        db_connect.commit()
         db_connect.close()
         return res
         

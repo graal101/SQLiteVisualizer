@@ -202,8 +202,17 @@
     </property>
     <addaction name="mn_font"/>
    </widget>
+   <widget class="QMenu" name="menuSQL">
+    <property name="title">
+     <string>SQL Шаблоны</string>
+    </property>
+    <addaction name="mn_alltables"/>
+    <addaction name="mn_addrecord"/>
+    <addaction name="mn_deleterecord"/>
+   </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
+   <addaction name="menuSQL"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="mn_open">
@@ -241,6 +250,38 @@
   <action name="mn_font">
    <property name="text">
     <string>Выбрать шрифт.</string>
+   </property>
+  </action>
+  <action name="mn_table">
+   <property name="text">
+    <string>Обзор всех table(шаблон строки)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="mn_alltables">
+   <property name="text">
+    <string>Все таблицы</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="mn_addrecord">
+   <property name="text">
+    <string>Добавить запись</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="mn_deleterecord">
+   <property name="text">
+    <string>Удвлить запись</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
    </property>
   </action>
  </widget>

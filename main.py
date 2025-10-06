@@ -17,6 +17,9 @@ class Confdb():
     """
     table_db_name = ''
     db_name = ''
+    table_template = "SELECT name FROM sqlite_master WHERE type='table';"
+    add_template = "INSERT INTO table_name (name, age) VALUES ('Noname', 00);"
+    del_template = "DELETE FROM table_name WHERE id = ?"
     
 
 class MyApp(QtWidgets.QMainWindow):
@@ -30,9 +33,38 @@ class MyApp(QtWidgets.QMainWindow):
         self.mn_open.triggered.connect(self.mn_open_file)  # Открыть файл БД
         self.mn_quit.triggered.connect(self.mn_exit)  # Выход
         self.mn_font.triggered.connect(self.mn_font_choose)  # Выбор шрифта, размера шрифта
+        self.mn_alltables.triggered.connect(self.mn_allTables_set)  # Обзор всех таблиц в базе.
+        self.mn_addrecord.triggered.connect(self.mn_addrecord_set)  # 
+        self.mn_deleterecord.triggered.connect(self.mn_deleterecord_set)
         self.btn_search.clicked.connect(self.fetch_data)  # Запрос к БД из строки
+        
+    def mn_addrecord_set(self):
+        if not Confdb.db_name:
+            message('', 'Ошибка', 'Не загружена БД!', ico=2)
+            return
+        try:
+            self.lineEdit.setText(f'{Confdb.add_template}')
+        except:
+            message('', 'Ошибка', 'Запись в БД!', ico=2)
+            
+    def mn_deleterecord_set(self):
+        if not Confdb.db_name:
+            message('', 'Ошибка', 'Не загружена БД!', ico=2)
+            return
+        try:
+            self.lineEdit.setText(f'{Confdb.del_template}')
+        except:
+            message('', 'Ошибка', 'Запись в БД!', ico=2)
+        
+    def mn_allTables_set(self):
+        """Обзор всех таблиц в базе."""
+        if not Confdb.db_name:
+            message('', 'Ошибка', 'Не загружена БД!', ico=2)
+            return
+        qq = Pqt(Confdb.db_name)
+        self.tableView.setModel(qq.db_read(Confdb.table_template))
 
-    def mn_open_file(self):  # FIX table_kit with PyQt6.QtSql!!!
+    def mn_open_file(self):
         """Открытие базы данных с заполнением таблицы."""
         flopen = FileDialog()
         result = ''
@@ -76,7 +108,6 @@ class MyApp(QtWidgets.QMainWindow):
             self.tableView.setFont(fsize)
 
     def mn_exit(self):
-        # Действие при нажатии кнопки
         sys.exit()
 
 
