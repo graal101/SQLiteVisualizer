@@ -192,7 +192,6 @@
      <string>Файл</string>
     </property>
     <addaction name="mn_open"/>
-    <addaction name="action_txt_db"/>
     <addaction name="action_resume"/>
     <addaction name="mn_quit"/>
    </widget>

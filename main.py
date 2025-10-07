@@ -70,6 +70,8 @@ class MyApp(QtWidgets.QMainWindow):
         result = ''
         file_name = flopen.open_file_dialog()
         Confdb.db_name = file_name
+        if file_name == None:
+            return
         db_connect = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         db_connect.setDatabaseName(file_name)
         db_connect.open()
